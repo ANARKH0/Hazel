@@ -8,7 +8,11 @@ workspace "Hazel"
 	}
  
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" --Debug-Windows-x64
- 
+-- Include diretories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include" 
+include "Hazel/vendor/GLFW"		--include Hazel/vendor/GLFW/premake5.lua
+
 project "Hazel"
 	location "Hazel"
 	kind "SharedLib" --dll
@@ -16,6 +20,9 @@ project "Hazel"
  
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
+
+	pchheader "hzpch.h"
+	pchsource "Hazel/src/hzpch.cpp"
  
 	files
 	{
@@ -24,8 +31,17 @@ project "Hazel"
 	}
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}",
 	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
+	}
+
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On" --linking the runtime library
@@ -53,6 +69,9 @@ project "Hazel"
 		filter "configurations:Dist" --only apply to Debug configurations
 			defines "HZ_DIST"
 			optimize "On"
+
+		filter "system:windows"
+			buildoptions "/MT"
 			
 project "Sandbox"
 	location "Sandbox"
@@ -100,3 +119,6 @@ project "Sandbox"
 		filter "configurations:Dist" --only apply to Debug configurations
 			defines "HZ_DIST"
 			optimize "On"
+
+		filter "system:windows"
+        	buildoptions "/MT"

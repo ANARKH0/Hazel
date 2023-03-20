@@ -1,6 +1,5 @@
 #include "hzpch.h"
 
-#include "Log.h"
 
 namespace Hazel {
 
