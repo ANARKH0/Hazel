@@ -21,6 +21,18 @@ namespace Hazel {
 
 	}
 
+	void Application::PushLayer(Layer* layer) {
+
+		m_LayerStack.PushLayer(layer);
+
+	}
+
+	void Application::PushOverlay(Layer* overlay) {
+		
+		m_LayerStack.PushOverlay(overlay);
+
+	}
+
 	void Application::OnEvent(Event& e) {  // 事件日志生产函数
 
 		EventDispatcher dispatcher(e); // 窗口关闭事件类型捕捉 即提取事件类型
@@ -28,6 +40,14 @@ namespace Hazel {
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose)); // 窗口关闭事件匹配枚举中的窗口关闭事件，则关闭窗口
 
 		HZ_CORE_TRACE("{0}", e);
+
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
+
+			(*--it)->OnEvent(e);
+			if (e.m_Handled) {
+				break;
+			}
+		}
 
 	}
 
@@ -38,6 +58,12 @@ namespace Hazel {
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : m_LayerStack) {
+
+				layer->OnUpdate();
+			}
+
 			m_Window->OnUpdate();
 		}
 	}

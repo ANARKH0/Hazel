@@ -49,7 +49,7 @@ namespace Hazel {
 			return GetCategoryFlags() & category;
 		}
 
-	protected:
+//	protected:
 		bool m_Handled = false; // 事件处理标志
 	};
 
