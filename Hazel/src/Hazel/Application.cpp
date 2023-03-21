@@ -2,19 +2,35 @@
 
 #include "Application.h"
 
-#include "Events/ApplicationEvent.h"
+#include "Log.h"
 
 #include <GLFW/glfw3.h>
+
+
+#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 namespace Hazel {
 
 	Application::Application() {
 		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));   // 事件回调函数
 
 	}
+
 	Application::~Application() {
 
 	}
+
+	void Application::OnEvent(Event& e) {  // 事件日志生产函数
+
+		EventDispatcher dispatcher(e); // 窗口关闭事件类型捕捉 即提取事件类型
+
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose)); // 窗口关闭事件匹配枚举中的窗口关闭事件，则关闭窗口
+
+		HZ_CORE_TRACE("{0}", e);
+
+	}
+
 	void Application::Run() {
 		//WindowResizeEvent e(1280, 720);
 		//HZ_TRACE(e);
@@ -24,6 +40,12 @@ namespace Hazel {
 			glClear(GL_COLOR_BUFFER_BIT);
 			m_Window->OnUpdate();
 		}
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e) {
+
+		m_Running = false;
+		return true;
 	}
 
 }

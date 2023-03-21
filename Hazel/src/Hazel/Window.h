@@ -22,7 +22,7 @@ namespace Hazel {
 
 	class HAZEL_API Window {
 	public:
-		using EventCallbackFn = std::function<void(Event&)>;
+		using EventCallbackFn = std::function<void(Event&)>;  // 无返回类型 指向Event类型对象
 
 		virtual ~Window() = default; // 动态绑定
 
