@@ -11,7 +11,11 @@ outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" --Debug-Windows-
 -- Include diretories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include" 
+IncludeDir["Glad"] = "Hazel/vendor/Glad/include" 
+
+
 include "Hazel/vendor/GLFW"		--include Hazel/vendor/GLFW/premake5.lua
+include "Hazel/vendor/Glad"		--include Hazel/vendor/GLFW/premake5.lua
 
 project "Hazel"
 	location "Hazel"
@@ -34,11 +38,14 @@ project "Hazel"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -51,6 +58,7 @@ project "Hazel"
 		{
 			"HZ_BUILD_DLL",
 			"HZ_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE"
 		}
  
 		--create a postbuild step to put the .dll where we want to be

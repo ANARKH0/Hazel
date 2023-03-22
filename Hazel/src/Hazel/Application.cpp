@@ -4,8 +4,8 @@
 
 #include "Log.h"
 
-#include <GLFW/glfw3.h>
-
+// #include <GLFW/glfw3.h>  // glad.h include this
+#include <glad/glad.h>
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -14,6 +14,9 @@ namespace Hazel {
 	Application::Application() {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));   // 事件回调函数
+
+//		int id;
+//		glGenVertexArrays(1, &(GLuint)id); // Just for test the glad
 
 	}
 
