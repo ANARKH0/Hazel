@@ -1,9 +1,9 @@
 #include "Hazel.h"
 
-class Exampleyer : public Hazel::Layer 
+class ExampleLayer : public Hazel::Layer 
 {
 public:
-	Exampleyer() : Layer("Example") { }
+	ExampleLayer() : Layer("Example") { }
 
 	void OnUpdate() override {
 
@@ -25,7 +25,8 @@ class Sandbox : public Hazel::Application
 public:
 	Sandbox() {
 
-		PushLayer(new Exampleyer());
+		PushLayer(new ExampleLayer());
+		PushOverlay(new Hazel::ImGuiLayer());
 
 	}
 	~Sandbox() {

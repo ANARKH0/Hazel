@@ -16,8 +16,8 @@ namespace Hazel {
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {
-
-		m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer); // 构造 layerInsert 对象的实列化, 在插入前的m_LayerInsert索引处
+		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer); // 构造 layerInsert 对象的实列化, 在插入前的m_LayerInsert索引处
+		m_LayerInsertIndex++;
 		layer->OnAttach();
 
 	}
@@ -31,19 +31,19 @@ namespace Hazel {
 
 	void LayerStack::PopLayer(Layer* layer) {
 
-		auto it = std::find(m_Layers.begin(), m_Layers.end(), layer); // it 是 vector<Layer*>::iterator
+		auto it = std::find(m_Layers.begin(), m_Layers.begin() + m_LayerInsertIndex, layer); // it 是 vector<Layer*>::iterator
 		if (it != m_Layers.end()) {
 
 			layer->OnDetach();
 			m_Layers.erase(it);
-			m_LayerInsert--; // vector<Layer*>::iterator type 支持 -- 操作
+			m_LayerInsertIndex--; // vector<Layer*>::iterator type 支持 -- 操作
 
 		}
 	}
 
 	void LayerStack::PopOverlay(Layer* overlay) {
 
-		auto it = std::find(m_Layers.begin(), m_Layers.end(), overlay); // it 是 vector<Layer*>::iterator
+		auto it = std::find(m_Layers.begin() + m_LayerInsertIndex, m_Layers.end(), overlay); // it 是 vector<Layer*>::iterator
 		if (it != m_Layers.end()) {
 
 			overlay->OnDetach();

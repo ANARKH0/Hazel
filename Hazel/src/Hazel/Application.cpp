@@ -7,16 +7,22 @@
 // #include <GLFW/glfw3.h>  // glad.h include this
 #include <glad/glad.h>
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 namespace Hazel {
 
+#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application() {
+
+		HZ_CORE_ASSERT(!s_Instance, "Application already exists!")   // 断言
+		s_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));   // 事件回调函数
 
 //		int id;
-//		glGenVertexArrays(1, &(GLuint)id); // Just for test the glad
+//		glGenVertexArrays(1, &(GLuint)id); // Just for test the glad.
 
 	}
 
@@ -27,12 +33,15 @@ namespace Hazel {
 	void Application::PushLayer(Layer* layer) {
 
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 
 	}
 
 	void Application::PushOverlay(Layer* overlay) {
 		
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
+
 
 	}
 

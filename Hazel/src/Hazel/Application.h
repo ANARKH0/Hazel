@@ -3,6 +3,7 @@
 #include "Core.h"
 
 #include "Window.h"
+#include "Layer.h"
 #include "Hazel/LayerStack.h"
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/ApplicationEvent.h"
@@ -26,6 +27,9 @@ namespace Hazel {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
+		inline static Application& Get() { return *s_Instance; }
+		inline Window& GetWindow() { return *m_Window; }
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
@@ -33,6 +37,9 @@ namespace Hazel {
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;
+
+	private:
+		static Application* s_Instance;
 
 	};
 	// To be defined in CLIENT

@@ -11,11 +11,15 @@ outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" --Debug-Windows-
 -- Include diretories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include" 
-IncludeDir["Glad"] = "Hazel/vendor/Glad/include" 
+IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
+IncludeDir["ImGui"] = "Hazel/vendor/imgui" 
+
 
 
 include "Hazel/vendor/GLFW"		--include Hazel/vendor/GLFW/premake5.lua
 include "Hazel/vendor/Glad"		--include Hazel/vendor/GLFW/premake5.lua
+include "Hazel/vendor/imgui"		--include Hazel/vendor/GLFW/premake5.lua
+
 
 project "Hazel"
 	location "Hazel"
@@ -39,6 +43,8 @@ project "Hazel"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+
 
 	}
 
@@ -46,6 +52,7 @@ project "Hazel"
 	{
 		"GLFW",
 		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 
