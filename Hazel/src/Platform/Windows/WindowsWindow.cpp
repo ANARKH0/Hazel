@@ -90,7 +90,7 @@ namespace Hazel {
 			data.Width = width;
 			data.Height = height;
 
-			WindowResizeEvent event(width, height);
+			WindowResizedEvent event(width, height);
 			data.EventCallback(event);
 		});
 
@@ -114,7 +114,7 @@ namespace Hazel {
 				}
 
 				case GLFW_RELEASE: {
-					KeyReleaseEvent event(key);
+					KeyReleasedEvent event(key);
 					data.EventCallback(event);
 					break;
 				}
@@ -127,6 +127,18 @@ namespace Hazel {
 
 			}
 		});
+
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
+
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);  // 使用无类型指针void接受对应窗口事件类型的指针
+
+			KeyTypedEvent event(keycode);
+			data.EventCallback(event);
+
+		});
+
+
+
 
 		glfwSetMouseButtonCallback(m_Window, [] (GLFWwindow* window, int button, int action, int mods) {
 			
@@ -141,7 +153,7 @@ namespace Hazel {
 				}
 
 				case GLFW_RELEASE: {
-					MouseButtonReleaseEvent event(button);
+					MouseButtonReleasedEvent event(button);
 					data.EventCallback(event);
 					break;
 				}
