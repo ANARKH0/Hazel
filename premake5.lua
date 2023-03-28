@@ -1,6 +1,8 @@
 workspace "Hazel"
 	architecture "x64"
  
+	startproject "Sandbox"
+
 	configurations{
 		"Debug",
 		"Release",
@@ -20,11 +22,11 @@ include "Hazel/vendor/GLFW"		--include Hazel/vendor/GLFW/premake5.lua
 include "Hazel/vendor/Glad"		--include Hazel/vendor/GLFW/premake5.lua
 include "Hazel/vendor/imgui"		--include Hazel/vendor/GLFW/premake5.lua
 
-
 project "Hazel"
 	location "Hazel"
 	kind "SharedLib" --dll
 	language "C++"
+	staticruntime "off"
  
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
@@ -58,7 +60,6 @@ project "Hazel"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On" --linking the runtime library
 		systemversion "latest"
  
 		defines
@@ -75,24 +76,24 @@ project "Hazel"
  
 		filter "configurations:Debug" --only apply to Debug configurations
 			defines "HZ_DEGUG"
-			buildoptions "/MDd"
+			runtime "Debug"
 			symbols "On"
  
 		filter "configurations:Release" --only apply to Debug configurations
 			defines "HZ_RELEASE"
-			buildoptions "/MD"
+			runtime "Release"
 			optimize "On"
 		
 		filter "configurations:Dist" --only apply to Debug configurations
 			defines "HZ_DIST"
-			buildoptions "/MD"
+			runtime "Release"
 			optimize "On"
 			
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp" --.exe
 	language "C++"
- 
+	staticruntime "off"
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
  
@@ -115,7 +116,6 @@ project "Sandbox"
  
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On" --linking the runtime library
 		systemversion "latest"
  
 		defines
@@ -125,15 +125,15 @@ project "Sandbox"
  
 		filter "configurations:Debug" --only apply to Debug configurations
 			defines "HZ_DEGUG"
-			buildoptions "/MDd"
+			runtime "Debug"
 			symbols "On"
  
 		filter "configurations:Release" --only apply to Debug configurations
 			defines "HZ_RELEASE"
-			buildoptions "/MD"
+			runtime "Release"
 			optimize "On"
 		
 		filter "configurations:Dist" --only apply to Debug configurations
 			defines "HZ_DIST"
-			buildoptions "/MD"
+			runtime "Release"
 			optimize "On"
