@@ -71,7 +71,7 @@ project "Hazel"
  
 		--create a postbuild step to put the .dll where we want to be
 		postbuildcommands{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" ..outputDir.. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" ..outputDir.. "/Sandbox/\"")
 		}
  
 		filter "configurations:Debug" --only apply to Debug configurations
