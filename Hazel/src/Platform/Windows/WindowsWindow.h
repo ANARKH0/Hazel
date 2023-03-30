@@ -21,13 +21,12 @@ namespace Hazel {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const ;
 
-
+		inline virtual void* GetNativeWindow() const { return m_Window; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
 	private:
-
 		GLFWwindow* m_Window;
 
 		struct WindowData {

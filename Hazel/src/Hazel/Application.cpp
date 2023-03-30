@@ -7,6 +7,8 @@
 // #include <GLFW/glfw3.h>  // glad.h include this
 #include <glad/glad.h>
 
+#include "Input.h"
+
 namespace Hazel {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -75,6 +77,9 @@ namespace Hazel {
 
 				layer->OnUpdate();
 			}
+
+			auto pos = Input::GetMousePosition();
+			HZ_CORE_TRACE("{0}", "{1}", pos.first, pos.second);
 
 			m_Window->OnUpdate();
 		}
