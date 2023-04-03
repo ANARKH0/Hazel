@@ -78,8 +78,8 @@ namespace Hazel {
 				layer->OnUpdate();
 			}
 
-			auto pos = Input::GetMousePosition();
-			HZ_CORE_TRACE("{0}", "{1}", pos.first, pos.second);
+//			auto pos = Input::GetMousePosition();
+//			HZ_CORE_TRACE("{0}", "{1}", pos.first, pos.second);
 
 			m_Window->OnUpdate();
 		}

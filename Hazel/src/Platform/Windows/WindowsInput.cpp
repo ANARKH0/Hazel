@@ -13,7 +13,7 @@ namespace Hazel {
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow()); // cast the windows pointer static 
-		auto state = glfwGetKey(window, keycode);
+		auto state = glfwGetKey(window, keycode); // 不同平台时可以对code使用硬解码来实现兼容，也可以使用宏定义，参见KeyCodes.h的注释
 
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
